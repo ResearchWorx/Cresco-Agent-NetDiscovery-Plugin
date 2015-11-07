@@ -3,15 +3,16 @@ package plugincore;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
+
+import netdiscovery.DiscoveryEngine;
 
 import org.apache.commons.configuration.SubnodeConfiguration;
 
@@ -40,7 +41,7 @@ public class PluginEngine {
 	
 	public static ConcurrentLinkedQueue<MsgEvent> logOutQueue;
 	
-	public static SysInfoBuilder sib;
+	public static DiscoveryEngine de;
 	
 	public static WatchDog wd;
 	public static WatchPerf wp;
@@ -110,7 +111,6 @@ public class PluginEngine {
 		   
 		   return version;
 	   }
-	
 	public void shutdown()
 	{
 		System.out.println("Plugin Shutdown : Agent=" + agent + "pluginname=" + plugin);
@@ -199,42 +199,17 @@ public class PluginEngine {
 			
 	    	try
 	    	{
-	    		//System.out.println("Starting Dummy Service");
-				//DummyServerEngine dummyEngine = new DummyServerEngine();
-				//Thread dummyServerThread = new Thread(dummyEngine);
-		        //dummyServerThread.start();
-		        //PluginEngine.config.setParam("master", "blaster", true);
-	    		sib = new SysInfoBuilder();
-	        	
-	        	//sib.getAddresses();
-	        	/*
-	        	Map<String,String> sihm = sib.getSysInfoMap();
-	            
-	            for(Entry<String, String> entry : sihm.entrySet()) {
-	                String key = entry.getKey();
-	                String value = entry.getValue();
-	                //System.out.println(key + ":" + value);
-	                PluginEngine.config.setParam(key, value, true);
-	            }
-	            */
+	    		System.out.println("Starting Broadcast Discovery Listner");
+		        de = new DiscoveryEngine();
+		        //ArrayList<InetAddress> pl = de.getPeers();
+		        de.startBroadcastListner();
+		        
 	    	}
 	    	catch(Exception ex)
 	    	{
 	    		System.out.println("Unable to Start System Service : " + ex.toString());
 	    		return false;
 	    	}
-	    	
-	    	/*
-	    	AMPQLogProducer v = new AMPQLogProducer();
-	    	ProducerThread = new Thread(v);
-	    	ProducerThread.start();
-	    	while(!ProducerEnabled)
-	    	{
-	    		Thread.sleep(1000);
-	    		String msg = "Waiting for AMPQProducer Initialization : Region=" + region + " Agent=" + agent + " plugin=" + plugin;
-	    		clog.log(msg);
-	    	}
-	    	*/
 	    	
 	    	
 	    	wd = new WatchDog();
@@ -286,7 +261,6 @@ public class PluginEngine {
 		}
 		
 	}
-	
 	public static String getPluginName(String jarFile) //This should pull the version information from jar Meta data
 	{
 			   String version;
@@ -311,7 +285,6 @@ public class PluginEngine {
 			   }
 			   return version;
 	}
-	
 	public static String getPluginVersion(String jarFile) //This should pull the version information from jar Meta data
 	{
 			   String version;

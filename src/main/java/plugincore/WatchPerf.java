@@ -1,5 +1,7 @@
 package plugincore;
 
+import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -49,15 +51,21 @@ public class WatchPerf {
 			 le.setParam("runtime", String.valueOf(runTime));
 			 le.setParam("timestamp", String.valueOf(System.currentTimeMillis()));
 			 
-			 Map<String,String> sihm = PluginEngine.sib.getSysInfoMap();
-	            
-	            for(Entry<String, String> entry : sihm.entrySet()) {
-	                String key = entry.getKey();
-	                String value = entry.getValue();
-	                //System.out.println(key + ":" + value);
-	                //PluginEngine.config.setParam(key, value, true);
-	                le.setParam(key, value);
-	            }
+			 ArrayList<InetAddress> pl = PluginEngine.de.getPeers();
+			 StringBuilder sb = new StringBuilder();
+			 for(InetAddress inet : pl)
+			 {
+				 sb.append(inet.getHostAddress() + ",");
+			 }
+			 if(sb.length() > 0)
+			 {
+				 String discoveredIp = sb.substring(0, sb.length() -1);
+				 le.setParam("discoveredList", discoveredIp);
+			 }
+			 else
+			 {
+				 le.setParam("discoveredList", "");
+			 }
 			 
 			 PluginEngine.clog.log(le);
 	    }
