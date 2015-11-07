@@ -1,3 +1,3 @@
-# Cresco-Agent-SysInfo-Plugin
+# Cresco-Agent-NetDiscovery-Plugin
 
-For SysInfo plugin
+For NetDiscovery plugin
