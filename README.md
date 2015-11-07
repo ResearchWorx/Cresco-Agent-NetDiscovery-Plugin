@@ -1,3 +1,3 @@
 # Cresco-Agent-NetDiscovery-Plugin
 
-For NetDiscovery plugin
+For NetDiscovery plugin for network
