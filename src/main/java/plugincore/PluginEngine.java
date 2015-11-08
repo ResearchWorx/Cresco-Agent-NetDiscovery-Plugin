@@ -3,8 +3,6 @@ package plugincore;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
@@ -14,7 +12,8 @@ import java.util.jar.Manifest;
 
 import org.apache.commons.configuration.SubnodeConfiguration;
 
-import netdiscovery2.DiscoveryEngine;
+import netdiscovery.DiscoveryClient;
+import netdiscovery.DiscoveryEngine;
 import shared.Clogger;
 import shared.MsgEvent;
 import shared.MsgEventType;
@@ -40,7 +39,8 @@ public class PluginEngine {
 	
 	public static ConcurrentLinkedQueue<MsgEvent> logOutQueue;
 	
-	public static DiscoveryEngine de;
+	public static boolean DiscoveryActive = false; 
+	public static DiscoveryClient dc;
 	
 	public static WatchDog wd;
 	public static WatchPerf wp;
@@ -199,9 +199,16 @@ public class PluginEngine {
 	    	try
 	    	{
 	    		System.out.println("Starting Broadcast Discovery Listner");
-		        de = new DiscoveryEngine();
-		        //ArrayList<InetAddress> pl = de.getPeers();
-		        de.startBroadcastListner();
+	    		DiscoveryEngine de = new DiscoveryEngine();
+		        Thread discoveryThread = new Thread(de);
+		        discoveryThread.start();
+		        while(!DiscoveryActive)
+		        {
+		        	System.out.println("Wating on Discovery Server to start...");
+		        	Thread.sleep(1000);
+		        }
+		        int discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout"));
+		        dc = new DiscoveryClient(discoveryTimeout);
 		        
 	    	}
 	    	catch(Exception ex)

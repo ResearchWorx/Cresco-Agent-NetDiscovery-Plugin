@@ -51,20 +51,10 @@ public class WatchPerf {
 			 le.setParam("runtime", String.valueOf(runTime));
 			 le.setParam("timestamp", String.valueOf(System.currentTimeMillis()));
 			 
-			 ArrayList<InetAddress> pl = PluginEngine.de.getPeers();
-			 StringBuilder sb = new StringBuilder();
-			 for(InetAddress inet : pl)
+			 Map<String,String> dhm = PluginEngine.dc.getDiscoveryMap();
+			 for(Entry<String,String> entry : dhm.entrySet()) 
 			 {
-				 sb.append(inet.getHostAddress() + ",");
-			 }
-			 if(sb.length() > 0)
-			 {
-				 String discoveredIp = sb.substring(0, sb.length() -1);
-				 le.setParam("discoveredList", discoveredIp);
-			 }
-			 else
-			 {
-				 le.setParam("discoveredList", "");
+				 le.setParam(entry.getKey(), entry.getValue());
 			 }
 			 
 			 PluginEngine.clog.log(le);

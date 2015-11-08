@@ -4,6 +4,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import plugincore.PluginEngine;
+
 import com.google.gson.Gson;
 
 import shared.MsgEvent;
@@ -25,10 +27,12 @@ public class DiscoveryEngine implements Runnable
 	      //Keep a socket open to listen to all the UDP trafic that is destined for this port
 	      socket = new DatagramSocket(32005, InetAddress.getByName("0.0.0.0"));
 	      socket.setBroadcast(true);
-
-	      while (true) {
+	      
+	      PluginEngine.DiscoveryActive = true;
+	      while (true) 
+	      {
 	        System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
-
+	        
 	        //Receive a packet
 	        byte[] recvBuf = new byte[15000];
 	        DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
