@@ -1,122 +1,79 @@
 package netdiscovery;
 
-import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
 
-import netdiscovery.PeerDiscovery.Peer;
+import com.google.gson.Gson;
+
+import shared.MsgEvent;
+import shared.MsgEventType;
 
 
-public class DiscoveryEngine {
-
-	private Broadcasts bc;
-	private ArrayList<String> bl;
-	private ArrayList<InetAddress> al;
-	//private ArrayList<InetAddress> pl;
-	private PeerDiscovery mp;
-	private int group = 6969;
+public class DiscoveryEngine implements Runnable 
+{
+	private DatagramSocket socket;
+	private Gson gson;
+	public DiscoveryEngine()
+	{
+		gson = new Gson();
+	}
+	  
 	
-	public DiscoveryEngine() throws IOException 
-	{
-		bc = new Broadcasts();
-		bl = bc.getBroadcast();
-		al = bc.getAddresses();
-		//pl = new ArrayList<InetAddress>();
-		
-	}
-	public void startBroadcastListner() throws IOException
-	{
-		mp = new PeerDiscovery( group, 6969, bl);
-        System.out.print( "Start Listening..." );
-        //mp.disconnect();
-        mp.startListen();
-        
-	}
-	public ArrayList<InetAddress> getPeers() 
-	{
-		ArrayList<InetAddress> pl = null;
-		try
-		{
-		for(String iadd : bl)
-		{
-			System.out.println("Peer Discovery on broadcast address: " + iadd);
-		}
-		
-		mp = new PeerDiscovery( group, 6969, bl);
-		
-	    mp.startListen();
-        Peer[] prePeers = mp.getPeers( 3000, ( byte ) 0 );
-        mp.disconnect();
-        
-        //System.out.println( prePeers.length + " peers found" );
-        for( Peer p : prePeers )
-        {
-          
-          if(!al.contains(p.ip))
-          {
-        	  pl.add(p.ip);
-          }
-          
-        }
-        
-        /*
-        if(pl.size() > 0)
-        {
-        	System.out.println("Peer Found");
-        	for(InetAddress ip : pl)
-        	{
-        		System.out.println("\t" + ip.getHostAddress() );
-                
-        	}
-        	//System.exit(0);
-        }
-        else
-        {
-        mp = new PeerDiscovery( group, 6969, bl);
-        System.out.print( "Start Listening..." );
-        //mp.disconnect();
-        mp.startListen();
-        }
-        */
-        /*
-		 boolean stop = false;
+	  public void run() {
+	    try {
+	      //Keep a socket open to listen to all the UDP trafic that is destined for this port
+	      socket = new DatagramSocket(32005, InetAddress.getByName("0.0.0.0"));
+	      socket.setBroadcast(true);
 
-	      BufferedReader br = new BufferedReader( new InputStreamReader( System.in ) );
+	      while (true) {
+	        System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
 
-	      while( !stop )
-	      {
-	        System.out.println( "enter \"q\" to quit, or anything else to query peers" );
-	        String s = br.readLine();
+	        //Receive a packet
+	        byte[] recvBuf = new byte[15000];
+	        DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
+	        socket.receive(packet);
 
-	        if( s.equals( "q" ) )
+	        //Packet received
+	        //System.out.println(getClass().getName() + ">>>Discovery packet received from: " + packet.getAddress().getHostAddress());
+	        //System.out.println(getClass().getName() + ">>>Packet received; data: " + new String(packet.getData()));
+
+	        //See if the packet holds the right command (message)
+	        String message = new String(packet.getData()).trim();
+	        if (message.equals("DISCOVER_FUIFSERVER_REQUEST")) 
 	        {
-	          System.out.print( "Closing down..." );
-	          mp.disconnect();
-	          System.out.println( " done" );
-	          stop = true;
-	        }
-	        else
-	        {
-	          System.out.println( "Querying" );
+	          //String response = "region=region0,agent=agent0,recaddr=" + packet.getAddress().getHostAddress();
+	          //MsgEventType
+	          //MsgEventType msgType, String msgRegion, String msgAgent, String msgPlugin, String msgBody
+	          MsgEvent me = new MsgEvent(MsgEventType.DISCOVER,"region0","agent0","plugin/0","Broadcast discovery response.");
+	          me.setParam("clientip", packet.getAddress().getHostAddress());
 
-	          Peer[] peers = mp.getPeers( 3000, ( byte ) 0 );
+	      	// convert java object to JSON format,
+	      	// and returned as JSON formatted string
+	      	  String json = gson.toJson(me);
+	          //byte[] sendData = "DISCOVER_FUIFSERVER_RESPONSE".getBytes();
+	          byte[] sendData = json.getBytes();
+	          //Send a response
+	          DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, packet.getAddress(), packet.getPort());
+	          socket.send(sendPacket);
 
-	          System.out.println( peers.length + " peers found" );
-	          for( Peer p : peers )
-	          {
-	            System.out.println( "\t" + p );
-	          }
+	          //System.out.println(getClass().getName() + ">>>Sent packet to: " + sendPacket.getAddress().getHostAddress());
 	        }
 	      }
-	    */
-		}
-		catch(Exception ex)
-		{
-			System.out.println("DiscoveryEngine : getPeers : " + ex.toString());
-		}
-		return pl;
-        
+	    } 
+	    catch (Exception ex) 
+	    {
+	    	System.out.println(ex.toString());
+	    }
+	  }
+	  
+	  public static DiscoveryEngine getInstance() {
+	    return DiscoveryThreadHolder.INSTANCE;
+	  }
+
+	  private static class DiscoveryThreadHolder {
+
+	    private static final DiscoveryEngine INSTANCE = new DiscoveryEngine();
+	  }
+
 	}
-	
-	
-}

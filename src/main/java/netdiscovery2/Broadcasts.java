@@ -1,4 +1,4 @@
-package netdiscovery;
+package netdiscovery2;
 
 
 import java.net.InetAddress;

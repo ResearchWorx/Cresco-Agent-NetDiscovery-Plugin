@@ -12,10 +12,9 @@ import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
-import netdiscovery.DiscoveryEngine;
-
 import org.apache.commons.configuration.SubnodeConfiguration;
 
+import netdiscovery2.DiscoveryEngine;
 import shared.Clogger;
 import shared.MsgEvent;
 import shared.MsgEventType;

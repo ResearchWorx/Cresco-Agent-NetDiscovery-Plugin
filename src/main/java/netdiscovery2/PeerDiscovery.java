@@ -1,4 +1,4 @@
-package netdiscovery;
+package netdiscovery2;
 
 //package com.ryanm.util.net;
 
@@ -109,6 +109,7 @@ private Thread bcastListen = new Thread( PeerDiscovery.class.getSimpleName()
         catch( SocketException se )
         {
           // someone may have called disconnect()
+        	System.out.println(se.toString());
         }
       }
 
