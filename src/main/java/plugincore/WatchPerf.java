@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import netdiscovery.DiscoveryClient;
 import shared.MsgEvent;
 import shared.MsgEventType;
 
@@ -53,8 +54,10 @@ public class WatchPerf {
 			 le.setParam("runtime", String.valueOf(runTime));
 			 le.setParam("timestamp", String.valueOf(System.currentTimeMillis()));
 			 System.out.println("CODY: Starting: Discovery2!");
-		    	
-			 Map<String,String> dhm = PluginEngine.dc.getDiscoveryMap();
+			 int discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout"));
+			 DiscoveryClient dc = new DiscoveryClient(discoveryTimeout);
+			 
+			 Map<String,String> dhm = dc.getDiscoveryMap();
 			 System.out.println("CODY: Starting: Discovery3!");
 		    	
 			 for(Entry<String,String> entry : dhm.entrySet()) 
