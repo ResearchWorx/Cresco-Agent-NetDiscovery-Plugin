@@ -77,7 +77,7 @@
       	
       </manifest>
       <manifestEntries>
-  		      <artifactId>cresco-agent-sysinfo-plugin</artifactId>
+  		      <artifactId>cresco-agent-netdiscovery-plugin</artifactId>
               <Implementation-Version>${project.version}.${buildNumber}.${maven.build.timestamp}</Implementation-Version>
       </manifestEntries>
     </archive>

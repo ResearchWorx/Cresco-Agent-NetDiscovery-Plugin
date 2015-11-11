@@ -207,12 +207,9 @@ public class PluginEngine {
 		        	System.out.println("Wating on Discovery Server to start...");
 		        	Thread.sleep(1000);
 		        }
-		        System.out.println("W0");
+		       
 		        int discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout"));
-		        System.out.println("W1");
-		        
 		        dc = new DiscoveryClient(discoveryTimeout);
-		        System.out.println("W2");
 		        
 	    	}
 	    	catch(Exception ex)
@@ -221,15 +218,9 @@ public class PluginEngine {
 	    		return false;
 	    	}
 	    	
-	    	System.out.println("W3");
-	        
 	    	wd = new WatchDog();
-	    	System.out.println("W4");
-	        
 	    	wp = new WatchPerf();
-	    	System.out.println("W5");
-	        
-    		return true;
+	    	return true;
     		
 		
 		}
