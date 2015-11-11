@@ -53,7 +53,7 @@ public class DiscoveryEngine implements Runnable
 	          //String response = "region=region0,agent=agent0,recaddr=" + packet.getAddress().getHostAddress();
 	          //MsgEventType
 	          //MsgEventType msgType, String msgRegion, String msgAgent, String msgPlugin, String msgBody
-	          MsgEvent me = new MsgEvent(MsgEventType.DISCOVER,"region0","agent0","plugin/0","Broadcast discovery response.");
+	          MsgEvent me = new MsgEvent(MsgEventType.DISCOVER,PluginEngine.region,PluginEngine.agent,PluginEngine.plugin,"Broadcast discovery response.");
 	          me.setParam("clientip", packet.getAddress().getHostAddress());
 
 	      	// convert java object to JSON format,
