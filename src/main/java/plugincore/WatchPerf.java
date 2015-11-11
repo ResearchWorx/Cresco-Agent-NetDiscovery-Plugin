@@ -53,20 +53,18 @@ public class WatchPerf {
 			 //le.setParam("perfmetric",String.valueOf(rand.nextInt(100 - 0 + 1) + 0));
 			 le.setParam("runtime", String.valueOf(runTime));
 			 le.setParam("timestamp", String.valueOf(System.currentTimeMillis()));
-			 System.out.println("CODY: Starting: Discovery2!");
 			 
-			 	
-				 Map<String,String> dhm = PluginEngine.dc.getDiscoveryMap();
-				 System.out.println("CODY: Starting: Discovery3!");
-		    	
-				 for(Entry<String,String> entry : dhm.entrySet()) 
-				 {
-					 le.setParam(entry.getKey(), entry.getValue());
-					 System.out.println("CODY: Discovered :" + entry.getKey() + " " + entry.getValue());
-				 }
+			 //check internet
+			 boolean isInternet = PluginEngine.dc.isReachable("google.com");
+			 le.setParam("isinternet", String.valueOf(isInternet));
 			 
-				 PluginEngine.clog.log(le);
-				 System.out.println("CODY: End: Discovery!");
+			 //check local
+			 Map<String,String> dhm = PluginEngine.dc.getDiscoveryMap();
+			 for(Entry<String,String> entry : dhm.entrySet()) 
+			 {
+				 le.setParam(entry.getKey(), entry.getValue());
+			 }
+			 PluginEngine.clog.log(le);
 			 
 	    }
 	  }

@@ -38,7 +38,7 @@ class StopListnerTask extends TimerTask {
 		
 	    public void run() 
 	    {
-	    	System.out.println("CODY: Closing Shop!");
+	    	//System.out.println("CODY: Closing Shop!");
 	    	c.close();
 	    	timer.cancel();
 	    }
@@ -95,6 +95,7 @@ class StopListnerTask extends TimerTask {
 					// do what you have to do here
 					// In your case, an other loop.
 				}
+				
 				String keyfound = keylist.substring(0, keylist.length() -1);
 				dhm.put("discoveredagents", keyfound);
 			}
