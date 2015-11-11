@@ -41,6 +41,7 @@ public class PluginEngine {
 	
 	public static boolean DiscoveryActive = false; 
 	//public static DiscoveryClient dc;
+	public static boolean clientDiscoveryActive = false;
 	
 	public static WatchDog wd;
 	public static WatchPerf wp;

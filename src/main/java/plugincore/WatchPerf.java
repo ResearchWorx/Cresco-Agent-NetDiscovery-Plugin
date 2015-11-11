@@ -54,22 +54,26 @@ public class WatchPerf {
 			 le.setParam("runtime", String.valueOf(runTime));
 			 le.setParam("timestamp", String.valueOf(System.currentTimeMillis()));
 			 System.out.println("CODY: Starting: Discovery2!");
-			 int discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout"));
-			 DiscoveryClient dc = new DiscoveryClient(discoveryTimeout);
 			 
-			 Map<String,String> dhm = dc.getDiscoveryMap();
-			 System.out.println("CODY: Starting: Discovery3!");
-		    	
-			 for(Entry<String,String> entry : dhm.entrySet()) 
+			 if(!PluginEngine.clientDiscoveryActive)
 			 {
-				 le.setParam(entry.getKey(), entry.getValue());
-				 System.out.println("CODY: Discovered :" + entry.getKey() + " " + entry.getValue());
-			    	
-			 }
+				 PluginEngine.clientDiscoveryActive = true;
+				 int discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout"));
+				 DiscoveryClient dc = new DiscoveryClient(discoveryTimeout);
 			 
-			 PluginEngine.clog.log(le);
-			 System.out.println("CODY: End: Discovery!");
+				 Map<String,String> dhm = dc.getDiscoveryMap();
+				 System.out.println("CODY: Starting: Discovery3!");
 		    	
+				 for(Entry<String,String> entry : dhm.entrySet()) 
+				 {
+					 le.setParam(entry.getKey(), entry.getValue());
+					 System.out.println("CODY: Discovered :" + entry.getKey() + " " + entry.getValue());
+				 }
+			 
+				 PluginEngine.clog.log(le);
+				 System.out.println("CODY: End: Discovery!");
+				 PluginEngine.clientDiscoveryActive = false;
+			 }
 	    }
 	  }
 
