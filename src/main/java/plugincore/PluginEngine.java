@@ -40,7 +40,7 @@ public class PluginEngine {
 	public static ConcurrentLinkedQueue<MsgEvent> logOutQueue;
 	
 	public static boolean DiscoveryActive = false; 
-	//public static DiscoveryClient dc;
+	public static DiscoveryClient dc;
 	public static boolean clientDiscoveryActive = false;
 	
 	public static WatchDog wd;
@@ -209,8 +209,7 @@ public class PluginEngine {
 		        	Thread.sleep(1000);
 		        }
 		       
-		        int discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout"));
-		        //dc = new DiscoveryClient(discoveryTimeout);
+		        dc = new DiscoveryClient();
 		        
 	    	}
 	    	catch(Exception ex)

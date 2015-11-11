@@ -55,13 +55,8 @@ public class WatchPerf {
 			 le.setParam("timestamp", String.valueOf(System.currentTimeMillis()));
 			 System.out.println("CODY: Starting: Discovery2!");
 			 
-			 if(!PluginEngine.clientDiscoveryActive)
-			 {
-				 PluginEngine.clientDiscoveryActive = true;
-				 int discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout"));
-				 DiscoveryClient dc = new DiscoveryClient(discoveryTimeout);
-			 
-				 Map<String,String> dhm = dc.getDiscoveryMap();
+			 	
+				 Map<String,String> dhm = PluginEngine.dc.getDiscoveryMap();
 				 System.out.println("CODY: Starting: Discovery3!");
 		    	
 				 for(Entry<String,String> entry : dhm.entrySet()) 
@@ -72,8 +67,7 @@ public class WatchPerf {
 			 
 				 PluginEngine.clog.log(le);
 				 System.out.println("CODY: End: Discovery!");
-				 PluginEngine.clientDiscoveryActive = false;
-			 }
+			 
 	    }
 	  }
 
