@@ -31,14 +31,14 @@ public Timer timer;
 		gson = new Gson();
 		timer = new Timer();
 	    //timer.scheduleAtFixedRate(new StopListnerTask(), 1000, discoveryTimeout);
-	    timer.schedule(new StopListnerTask(), discoveryTimeout * 1000);
+	    timer.schedule(new StopListnerTask(), discoveryTimeout);
 	}
 	
 class StopListnerTask extends TimerTask {
 		
 	    public void run() 
 	    {
-	    	//System.out.println("Closing Shop!");
+	    	System.out.println("CODY: Closing Shop!");
 	    	c.close();
 	    	timer.cancel();
 	    }
