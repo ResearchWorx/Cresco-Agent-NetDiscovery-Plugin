@@ -26,7 +26,7 @@ public class WatchPerf {
 	      wdMap = new HashMap<String,String>(); //for sending future WD messages
 	      	 
 	      //System.out.println("CODY: Starting NetDiscovery!!! repeat in : " + PluginEngine.config.getParam("watchperftimer"));
-	      MsgEvent le = new MsgEvent(MsgEventType.INFO,PluginEngine.config.getParam("region"),null,null,"WatchDog timer set to " + Integer.parseInt(PluginEngine.config.getParam("watchdogtimer")) + " milliseconds");
+	      MsgEvent le = new MsgEvent(MsgEventType.INFO,PluginEngine.config.getParam("region"),null,null,"WatchPerf timer set to " + Integer.parseInt(PluginEngine.config.getParam("watchperftimer")) + " milliseconds");
 	      le.setParam("src_region", PluginEngine.region);
 		  le.setParam("src_agent", PluginEngine.agent);
 		  le.setParam("src_plugin", PluginEngine.plugin);
@@ -42,7 +42,7 @@ public class WatchPerf {
 	    	
 	    	//System.out.println("CODY: Starting: Discovery!");
 	    	long runTime = System.currentTimeMillis() - startTS;
-	    	 MsgEvent le = new MsgEvent(MsgEventType.WATCHDOG,PluginEngine.config.getParam("region"),null,null,"WatchDog timer set to " + Integer.parseInt(PluginEngine.config.getParam("watchdogtimer")) + " milliseconds");
+	    	 MsgEvent le = new MsgEvent(MsgEventType.WATCHDOG,PluginEngine.config.getParam("region"),null,null,"WatchPerf timer set to " + Integer.parseInt(PluginEngine.config.getParam("watchperftimer")) + " milliseconds");
 	    	 le.setParam("src_region", PluginEngine.region);
 			 le.setParam("src_agent", PluginEngine.agent);
 			 le.setParam("src_plugin", PluginEngine.plugin);
