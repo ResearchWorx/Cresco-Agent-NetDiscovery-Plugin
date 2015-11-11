@@ -21,7 +21,10 @@ public class DiscoveryEngine implements Runnable
 		gson = new Gson();
 	}
 	  
-	
+	public void shutdown()
+	{
+		socket.close();
+	}
 	  public void run() {
 	    try {
 	      //Keep a socket open to listen to all the UDP trafic that is destined for this port
@@ -31,7 +34,7 @@ public class DiscoveryEngine implements Runnable
 	      System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
 	        
 	      PluginEngine.DiscoveryActive = true;
-	      while (true) 
+	      while (PluginEngine.isActive) 
 	      {
 	        
 	        //Receive a packet
