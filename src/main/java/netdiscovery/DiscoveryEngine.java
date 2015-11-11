@@ -28,10 +28,11 @@ public class DiscoveryEngine implements Runnable
 	      socket = new DatagramSocket(32005, InetAddress.getByName("0.0.0.0"));
 	      socket.setBroadcast(true);
 	      
+	      System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
+	        
 	      PluginEngine.DiscoveryActive = true;
 	      while (true) 
 	      {
-	        System.out.println(getClass().getName() + ">>>Ready to receive broadcast packets!");
 	        
 	        //Receive a packet
 	        byte[] recvBuf = new byte[15000];

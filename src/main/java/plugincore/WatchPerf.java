@@ -38,6 +38,7 @@ public class WatchPerf {
 		
 	    public void run() {
 	    	
+	    	System.out.println("Starting: Discovery!");
 	    	long runTime = System.currentTimeMillis() - startTS;
 	    	 MsgEvent le = new MsgEvent(MsgEventType.WATCHDOG,PluginEngine.config.getParam("region"),null,null,"WatchDog timer set to " + Integer.parseInt(PluginEngine.config.getParam("watchdogtimer")) + " milliseconds");
 	    	 le.setParam("src_region", PluginEngine.region);
