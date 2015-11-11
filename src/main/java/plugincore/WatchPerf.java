@@ -21,9 +21,10 @@ public class WatchPerf {
 	public WatchPerf() {
 		  startTS = System.currentTimeMillis();
 		  timer = new Timer();
-	      timer.scheduleAtFixedRate(new WatchDogTask(), 1000, Integer.parseInt(PluginEngine.config.getParam("watchperftimer")));
+	      timer.scheduleAtFixedRate(new WatchDogTask(), 5000, Integer.parseInt(PluginEngine.config.getParam("watchperftimer")));
 	      wdMap = new HashMap<String,String>(); //for sending future WD messages
-	      	  
+	      	 
+	      System.out.println("CODY: Starting NetDiscovery!!! repeat in : " + PluginEngine.config.getParam("watchperftimer"));
 	      MsgEvent le = new MsgEvent(MsgEventType.INFO,PluginEngine.config.getParam("region"),null,null,"WatchDog timer set to " + Integer.parseInt(PluginEngine.config.getParam("watchdogtimer")) + " milliseconds");
 	      le.setParam("src_region", PluginEngine.region);
 		  le.setParam("src_agent", PluginEngine.agent);
@@ -38,7 +39,7 @@ public class WatchPerf {
 		
 	    public void run() {
 	    	
-	    	System.out.println("Starting: Discovery!");
+	    	System.out.println("CODY: Starting: Discovery!");
 	    	long runTime = System.currentTimeMillis() - startTS;
 	    	 MsgEvent le = new MsgEvent(MsgEventType.WATCHDOG,PluginEngine.config.getParam("region"),null,null,"WatchDog timer set to " + Integer.parseInt(PluginEngine.config.getParam("watchdogtimer")) + " milliseconds");
 	    	 le.setParam("src_region", PluginEngine.region);
