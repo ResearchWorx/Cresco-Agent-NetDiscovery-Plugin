@@ -29,7 +29,7 @@ public Timer timer;
 	public DiscoveryClientWorker(int discoveryTimeout)
 	{
 		gson = new Gson();
-		//timer = new Timer();
+		timer = new Timer();
 	    //timer.scheduleAtFixedRate(new StopListnerTask(), 1000, discoveryTimeout);
 	    timer.schedule(new StopListnerTask(), discoveryTimeout * 1000);
 	}
