@@ -206,7 +206,7 @@ class StopListnerTask extends TimerTask {
 	  	}
 		  //Close the port!
 	  //c.close();
-	  System.out.println("CODY : Dicsicer Client Worker Engned!");
+	  //System.out.println("CODY : Dicsicer Client Worker Engned!");
 	} 
 	catch (Exception ex) 
 	{

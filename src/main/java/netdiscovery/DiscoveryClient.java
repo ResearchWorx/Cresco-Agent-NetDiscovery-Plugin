@@ -11,7 +11,7 @@ public class DiscoveryClient
 	public DiscoveryClient()
 	{
 		discoveryTimeout = Integer.parseInt(PluginEngine.config.getParam("discoverytimeout")); 
-		System.out.println("DiscoveryClient : discoveryTimeout = " + discoveryTimeout);
+		//System.out.println("DiscoveryClient : discoveryTimeout = " + discoveryTimeout);
 	}
 	
 	public Map<String,String> getDiscoveryMap()
