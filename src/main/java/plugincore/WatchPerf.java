@@ -60,6 +60,11 @@ public class WatchPerf {
 			 {
 				 le.setParam(entry.getKey(), entry.getValue());
 			 }
+			 if(dhm.isEmpty())
+			 {
+				 le.setParam("discoveredagents",""); 
+			 }
+			 
 			 PluginEngine.clog.log(le);
 			 
 	    }
