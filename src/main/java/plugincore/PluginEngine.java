@@ -12,6 +12,7 @@ import java.util.jar.Manifest;
 
 import org.apache.commons.configuration.SubnodeConfiguration;
 
+import netbenchmark.NetBenchEngine;
 import netdiscovery.DiscoveryClient;
 import netdiscovery.DiscoveryEngine;
 import shared.Clogger;
@@ -42,7 +43,7 @@ public class PluginEngine {
 	public static boolean DiscoveryActive = false; 
 	public static DiscoveryClient dc;
 	public static boolean clientDiscoveryActive = false;
-	
+	public static boolean NetBenchEngineActive = false;
 	public static WatchDog wd;
 	public static WatchPerf wp;
 	
@@ -199,16 +200,27 @@ public class PluginEngine {
 			
 	    	try
 	    	{
-	    		System.out.println("Starting Broadcast Discovery Listner");
+	    		NetBenchEngine nbe = new NetBenchEngine();
+	        	Thread nbeThread = new Thread(nbe);
+	        	nbeThread.start();
+	        	
+	        	while(!NetBenchEngineActive)
+	        	{
+	        		Thread.sleep(1000);
+	        	}
+	        	System.out.println("NetBenchEngine Started...");
+	        	
+	    		
 	    		DiscoveryEngine de = new DiscoveryEngine();
 		        Thread discoveryThread = new Thread(de);
 		        discoveryThread.start();
 		        while(!DiscoveryActive)
 		        {
-		        	System.out.println("Wating on Discovery Server to start...");
+		        	//System.out.println("Wating on Discovery Server to start...");
 		        	Thread.sleep(1000);
 		        }
-		       
+		        System.out.println("DiscoveryEngine Started..");
+	    		
 		        dc = new DiscoveryClient();
 		        
 	    	}
